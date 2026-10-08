@@ -44,6 +44,9 @@ let skipBold = false;
 let skipItalic = false;
 let skipStrikethrough = false;
 let skipReferences = false;
+
+const wordChar = /[\p{L}\p{N}]/u;
+const isWordChar = (char) => char !== undefined && wordChar.test(char);
 }}
 
 Start
@@ -562,7 +565,10 @@ MaybeReferences
 /* Italic */
 Italic
    = value:$([a-zA-Z0-9]+ [\x5F] [\x5F]?) { return plain(value); }
-  / [\x5F] [\x5F] i:ItalicContentItems [\x5F] [\x5F] t:$[a-zA-Z0-9]+ {
+  / !AfterWordChar @ItalicDelimited
+
+ItalicDelimited
+  = [\x5F] [\x5F] i:ItalicContentItems [\x5F] [\x5F] t:$[a-zA-Z0-9]+ {
       return reducePlainTexts([plain('__'), ...i, plain('__'), plain(t)]);
     }
   / [\x5F] i:ItalicContentItems [\x5F] t:$[a-zA-Z]+ {
@@ -575,7 +581,14 @@ ItalicContent = text:ItalicContentItems { return italic(text); }
 
 ItalicContentItems = text:ItalicContentItem+ { return reducePlainTexts(text); }
 
-ItalicContentItem = ItalicContentPreferentialItem / ItalicPlainRun / AnyItalic / Line
+ItalicContentItem = ItalicContentPreferentialItem / ItalicPlainRun / IntrawordUnderscore / AnyItalic / Line
+
+// An underscore between two word characters belongs to the word, e.g: snake_case
+IntrawordUnderscore = AfterWordChar "_" BeforeWordChar { return plain('_'); }
+
+AfterWordChar = & { return isWordChar(input[offset() - 1]); }
+
+BeforeWordChar = & { return isWordChar(input[offset()]); }
 
 ItalicContentPreferentialItem = Whitespace
   / InlineCode

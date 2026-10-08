@@ -125,6 +125,11 @@ test.each([
 		[paragraph([plain('some__double__snake__case__text and some '), italic([plain('italic')]), plain(' text')])],
 	],
 	['something__ __and italic__', [paragraph([plain('something__ '), italic([plain('and italic')])])]],
+	['ОЛ_hello_ЭС', [paragraph([plain('ОЛ_hello_ЭС')])]],
+	['ОЛ_1.2_2_00_ЭС', [paragraph([plain('ОЛ_1.2_2_00_ЭС')])]],
+	['_snake_case_', [paragraph([italic([plain('snake_case')])])]],
+	['__snake_case__', [paragraph([italic([plain('snake_case')])])]],
+	['_ОЛ_hello_ЭС_', [paragraph([italic([plain('ОЛ_hello_ЭС')])])]],
 ])('parses %p', (input, output) => {
 	expect(parse(input, { emoticons: false })).toEqual(output);
 });

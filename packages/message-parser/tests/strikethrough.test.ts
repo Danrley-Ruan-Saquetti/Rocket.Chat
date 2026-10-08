@@ -43,6 +43,7 @@ test.each([
 	['~~Hello~~ this is dog', [paragraph([strike([plain('Hello')]), plain(` this is dog`)])]],
 	['Rocket cat says ~~Hello~~', [paragraph([plain(`Rocket cat says `), strike([plain('Hello')])])]],
 	['He said ~~Hello~~ to her', [paragraph([plain(`He said `), strike([plain('Hello')]), plain(` to her`)])]],
+	['~~AB_1.2_2_00_CD~~', [paragraph([strike([plain('AB_1.2_2_00_CD')])])]],
 ])('parses %p', (input, output) => {
 	expect(parse(input)).toEqual(output);
 });

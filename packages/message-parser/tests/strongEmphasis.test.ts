@@ -63,6 +63,14 @@ test.each([
 	['*bold ending with colon :*and some more text', [paragraph([bold([plain('bold ending with colon :')]), plain('and some more text')])]],
 	['*bold with a kissing emoji :* *', [paragraph([bold([plain('bold with a kissing emoji :')]), plain(' *')])]],
 	['*bold with a kissing emoji :* ', [paragraph([bold([plain('bold with a kissing emoji :')]), plain(' ')])]],
+	['**ОЛ_1.2_2_00_ЭС**', [paragraph([bold([plain('ОЛ_1.2_2_00_ЭС')])])]],
+	['*ОЛ_1.2_2_00_ЭС*', [paragraph([bold([plain('ОЛ_1.2_2_00_ЭС')])])]],
+	['**AB_1.2_2_00_CD**', [paragraph([bold([plain('AB_1.2_2_00_CD')])])]],
+	['**ОЛ_hello_ЭС**', [paragraph([bold([plain('ОЛ_hello_ЭС')])])]],
+	['*_ОЛ_1.2_2_00_ЭС_*', [paragraph([bold([italic([plain('ОЛ_1.2_2_00_ЭС')])])])]],
+	['**__ОЛ_1.2_2_00_ЭС__**', [paragraph([bold([italic([plain('ОЛ_1.2_2_00_ЭС')])])])]],
+	['_*ОЛ_1.2_2_00_ЭС*_', [paragraph([italic([bold([plain('ОЛ_1.2_2_00_ЭС')])])])]],
+	['**bold _italic_ snake_case**', [paragraph([bold([plain('bold '), italic([plain('italic')]), plain(' snake_case')])])]],
 ])('parses %p', (input, output) => {
 	expect(parse(input)).toEqual(output);
 });
